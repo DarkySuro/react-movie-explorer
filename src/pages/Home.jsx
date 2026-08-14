@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 
 const apikey = import.meta.env.VITE_OMDB_API_KEY;
 
-
 export default function Home() {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -52,13 +51,16 @@ export default function Home() {
   }, [searchTerm]);
 
   return (
-    <div>
-      <form onSubmit={(e) => { 
-        e.preventDefault();
-        if (!searchTerm.trim()) return;
-        clearTimeout(debouncerTimer.current);
-        fetchMovies();
-      }}>
+    <div className="page">
+      <form
+        className="search-form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (!searchTerm.trim()) return;
+          clearTimeout(debouncerTimer.current);
+          fetchMovies();
+        }}
+      >
         <input
           type="text"
           value={searchTerm}
@@ -67,24 +69,29 @@ export default function Home() {
         <button type="submit">Search</button>
       </form>
       {loading ? (
-        <h1>Loading...</h1>
+        <p className="status-message">Loading...</p>
       ) : error ? (
-        <h1 style={{ color: "red" }}>{error}</h1>
+        <p className="status-message error" style={{ color: "red" }}>
+          {error}
+        </p>
       ) : (
-        <div>
+        <div className="movie-grid">
           {movies.map((m) => (
-            <Link key={m.imdbID} to={`/movie/${m.imdbID}`}>
-              <div>
+            <Link
+              className="movie-card"
+              key={m.imdbID}
+              to={`/movie/${m.imdbID}`}
+            >
+              <div className="poster-wrap">
+                {m.Poster !== "N/A" ? (
+                  <img src={m.Poster} alt={m.Title} />
+                ) : (
+                  <div className="no-poster">No Image</div>
+                )}
+              </div>
+              <div className="card-body">
                 <h2>{m.Title}</h2>
-                <img
-                  src={
-                    m.Poster !== "N/A"
-                      ? m.Poster
-                      : "https://via.placeholder.com/200x300?text=No+Poster"
-                  }
-                  style={{ width: "360px", height: "240px" }}
-                  alt={m.Title}
-                />
+                <div className="year">{m.Year}</div>
               </div>
             </Link>
           ))}

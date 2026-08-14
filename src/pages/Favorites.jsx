@@ -5,29 +5,40 @@ import { Link } from "react-router-dom";
 export default function Favorites() {
   const { favorites, removeFavorite } = useContext(FavoritesContext);
 
-  return favorites.length > 0 ? (
-    <div>
-      {favorites.map((m) => (
-        <div key={m.imdbID}>
-          <Link to={`/movie/${m.imdbID}`} style={{ display: "block" }}>
-            <h2>{m.Title}</h2>
-            <img
-              src={
-                m.Poster !== "N/A"
-                  ? m.Poster
-                  : "https://via.placeholder.com/200x300?text=No+Poster"
-              }
-              style={{ width: "360px", height: "240px" }}
-              alt={m.Title}
-            />
-          </Link>
-          <button onClick={() => removeFavorite(m.imdbID)}>
-            Remove from favorite
-          </button>
+  return (
+    <div className="page">
+      {favorites.length > 0 ? (
+        <div className="movie-grid">
+          {favorites.map((m) => (
+            <div key={m.imdbID} className="movie-card">
+              <Link to={`/movie/${m.imdbID}`}>
+                <div className="poster-wrap">
+                  {m.Poster !== "N/A" ? (
+                    <img src={m.Poster} alt={m.Title} />
+                  ) : (
+                    <div className="no-poster">No Image</div>
+                  )}
+                </div>
+                <div className="card-body">
+                  <h2>{m.Title}</h2>
+                  <div className="year">{m.Year}</div>
+                </div>
+              </Link>
+              <button
+                className="remove-btn"
+                onClick={() => removeFavorite(m.imdbID)}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
         </div>
-      ))}
+      ) : (
+        <div className="empty-state">
+          <h2>No favorites yet</h2>
+          <p>Search for a movie and save it here.</p>
+        </div>
+      )}
     </div>
-  ) : (
-    <h2>No favorites yet — go save some movies!</h2>
   );
 }

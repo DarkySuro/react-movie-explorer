@@ -1,71 +1,68 @@
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useFetch } from "../hooks/useFetch";
 import { FavoritesContext } from "../context/FavoritesContext";
 
 const apikey = import.meta.env.VITE_OMDB_API_KEY;
 
 export default function MovieDetails() {
   const { id } = useParams();
-  const [movie, setMovie] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const {addFavorite, removeFavorite, isFavorite} = useContext(FavoritesContext)
 
-  useEffect(() => {
-    async function fetchMovieDetails() {
-      setLoading(true);
-      setError(null);
+  const {
+    data: movie,
+    loading,
+    error,
+  } = useFetch(`http://www.omdbapi.com/?apikey=${apikey}&i=${id}`);
 
-      try {
-        const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${apikey}&i=${id}`,
-        );
-
-        if (!res.ok) throw new Error("Failed to fetch details!");
-        const data = await res.json();
-
-        if (data.Response === "False")
-          throw new Error("Wrong Movie or does not exist!");
-
-        setMovie(data);
-      } catch (e) {
-        console.log(e.message);
-        setError(e.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchMovieDetails();
-  }, [id]);
+  const { addFavorite, removeFavorite, isFavorite } =
+    useContext(FavoritesContext);
 
   return (
-    <div>
-      <Link to="/">Back to Search</Link>
+    <div className="page">
+      <Link to="/" className="detail-back">
+        ← Back to Search
+      </Link>
       {loading ? (
-        <h1>Loading...</h1>
+        <p className="status-message">Loading...</p>
       ) : error ? (
-        <h1 style={{ color: "red" }}>{error}</h1>
+        <p className="status-message error">{error}</p>
       ) : (
-        <div>
-          <img
-            src={
-              movie.Poster !== "N/A"
-                ? movie.Poster
-                : "https://via.placeholder.com/200x300?text=No+Poster"
-            }
-            style={{ width: "360px", height: "240px" }}
-            alt={movie.Title}
-          />
-          <h1>{"Title: " + movie.Title}</h1>
-          <p>{"Year: " + movie.Year}</p>
-          <p>{"Genre: " + movie.Genre}</p>
-          <p>{"Director: " + movie.Director}</p>
-          <p>{"Plot: " + movie.Plot}</p>
-          <p>{"Rating: " + movie.imdbRating}</p>
-          <button onClick={() => isFavorite(movie.imdbID) ? removeFavorite(movie.imdbID): addFavorite(movie)}>
-            {isFavorite(movie.imdbID) ? 'Remove from favorite' : 'Add to favorite'}
-          </button>
+        <div className="detail-layout">
+          <div className="poster-wrap">
+            {movie.Poster !== "N/A" ? (
+              <img src={movie.Poster} alt={movie.Title} />
+            ) : (
+              <div className="no-poster">No Image</div>
+            )}
+          </div>
+          <div className="detail-info">
+            <h1>{movie.Title}</h1>
+            <div className="meta-row">
+              <span>{movie.Year}</span>
+              <span>{movie.Genre}</span>
+              <span>★ {movie.imdbRating}</span>
+            </div>
+            <div className="field">
+              <div className="label">Director</div>
+              <div className="value">{movie.Director}</div>
+            </div>
+            <div className="field">
+              <div className="label">Plot</div>
+              <div className="value">{movie.Plot}</div>
+            </div>
+            <button
+              className={`favorite-btn ${isFavorite(movie.imdbID) ? "is-favorite" : ""}`}
+              onClick={() =>
+                isFavorite(movie.imdbID)
+                  ? removeFavorite(movie.imdbID)
+                  : addFavorite(movie)
+              }
+            >
+              {isFavorite(movie.imdbID)
+                ? "★ Saved to Favorites"
+                : "☆ Add to Favorites"}
+            </button>
+          </div>
         </div>
       )}
     </div>

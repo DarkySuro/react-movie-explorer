@@ -3,15 +3,21 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Home from './pages/Home';
 import Favorites from "./pages/Favorites";
 import MovieDetails from "./pages/MovieDetails";
+// Context
 import FavoritesProvider from "./context/FavoritesContext";
+// Styles
+import './MovieApp.css'
 
-export default function App() {
+export default function MovieApp() {
   return (
     <FavoritesProvider>
       <BrowserRouter>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/favorites">Favorites</Link>
+        <nav className="app-nav">
+          <span className="brand">🎬 Movie Finder</span>
+          <div className="links">
+            <Link to="/">Home</Link>
+            <Link to="/favorites">Favorites</Link>
+          </div>
         </nav>
 
         <Routes>
