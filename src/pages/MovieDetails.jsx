@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
+import { FavoritesContext } from "../context/FavoritesContext";
+
 const apikey = import.meta.env.VITE_OMDB_API_KEY;
 
 export default function MovieDetails() {
@@ -7,6 +9,7 @@ export default function MovieDetails() {
   const [movie, setMovie] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const {addFavorite, removeFavorite, isFavorite} = useContext(FavoritesContext)
 
   useEffect(() => {
     async function fetchMovieDetails() {
@@ -60,6 +63,9 @@ export default function MovieDetails() {
           <p>{"Director: " + movie.Director}</p>
           <p>{"Plot: " + movie.Plot}</p>
           <p>{"Rating: " + movie.imdbRating}</p>
+          <button onClick={() => isFavorite(movie.imdbID) ? removeFavorite(movie.imdbID): addFavorite(movie)}>
+            {isFavorite(movie.imdbID) ? 'Remove from favorite' : 'Add to favorite'}
+          </button>
         </div>
       )}
     </div>
