@@ -1,7 +1,8 @@
-import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
+// Custom hook
 import { useFetch } from "../hooks/useFetch";
-import { FavoritesContext } from "../context/FavoritesContext";
+// Zustand store
+import { useFavoritesStore } from "../store/useFavoritesStore";
 
 const apikey = import.meta.env.VITE_OMDB_API_KEY;
 
@@ -14,8 +15,12 @@ export default function MovieDetails() {
     error,
   } = useFetch(`http://www.omdbapi.com/?apikey=${apikey}&i=${id}`);
 
-  const { addFavorite, removeFavorite, isFavorite } =
-    useContext(FavoritesContext);
+  const favorites = useFavoritesStore((state) => state.favorites);
+  const addFavorite = useFavoritesStore((state) => state.addFavorite);
+  const removeFavorite = useFavoritesStore((state) => state.removeFavorite);
+
+  const isFavorite = (id) => favorites.some((f) => f.imdbID === id);
+  
 
   return (
     <div className="page">

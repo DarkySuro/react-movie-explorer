@@ -1,9 +1,10 @@
-import { useContext } from "react";
-import { FavoritesContext } from "../context/FavoritesContext";
 import { Link } from "react-router-dom";
+// Zustand store
+import { useFavoritesStore } from "../store/useFavoritesStore";
 
 export default function Favorites() {
-  const { favorites, removeFavorite } = useContext(FavoritesContext);
+  const favorites = useFavoritesStore((state) => state.favorites);
+  const removeFavorite = useFavoritesStore((state) => state.removeFavorite);
 
   return (
     <div className="page">

@@ -21,13 +21,13 @@ export default function Home() {
       if (!res.ok) {
         throw new Error("Failed to fetch!" + res.status);
       }
-      const movie = await res.json();
+      const movies = await res.json();
 
       if (movie.Response === "False") {
         throw new Error("Wrong movie name or Movie does not exist!");
       }
 
-      setMovies(movie.Search);
+      setMovies(movies.Search);
     } catch (e) {
       console.log(e.message); //debug
       setError(e.message);
@@ -42,11 +42,13 @@ export default function Home() {
       setError(null); // don't show a stale error either
       return; // don't schedule a fetch at all
     }
-    // clearTimeout(debouncerTimer.current);
+    // start a new timer upon each key press
+    // Wait 1 minute for next key press before searching for movies with typed keywords
     debouncerTimer.current = setTimeout(() => {
       fetchMovies();
     }, 1000);
-
+    
+    // clear the timer before re-rendering or unmouting
     return () => clearTimeout(debouncerTimer.current);
   }, [searchTerm]);
 
