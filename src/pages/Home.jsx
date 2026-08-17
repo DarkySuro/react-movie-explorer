@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 const apikey = import.meta.env.VITE_OMDB_API_KEY;
-
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [movies, setMovies] = useState([]);
@@ -16,14 +15,14 @@ export default function Home() {
       setLoading(true);
       setError(null);
       const res = await fetch(
-        `http://www.omdbapi.com/?apikey=${apikey}&s=${searchTerm}`,
+        `http://www.omdbapi.com/?apikey=${apikey}&s=${searchTerm}`
       );
       if (!res.ok) {
         throw new Error("Failed to fetch!" + res.status);
       }
       const movies = await res.json();
 
-      if (movie.Response === "False") {
+      if (movies.Response === "False") {
         throw new Error("Wrong movie name or Movie does not exist!");
       }
 
