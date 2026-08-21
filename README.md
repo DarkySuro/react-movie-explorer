@@ -162,9 +162,11 @@ This keeps the server's attack surface closed by default, opening SSH only for t
 
 ## Author
 
-Surojit Jana
-BTech in Computer Science & Engineering
+#### Surojit Jana
 
+B.Tech in Computer Science & Engineering
+
+Government College of Engineering and Leather Technology (GCELT)
 ---
 
 ## License
