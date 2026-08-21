@@ -1,6 +1,6 @@
 # 🎬 Movie Finder
 
-A full-stack React movie search app with live search, favorites, and a custom CI/CD pipeline deploying to AWS EC2.
+A full-stack React movie search app with live search, persistent favorites, and a custom CI/CD pipeline deploying to AWS EC2.
 
 **[Live Demo →](http://13.53.36.113)**
 
@@ -162,11 +162,12 @@ This keeps the server's attack surface closed by default, opening SSH only for t
 
 ## Author
 
-#### Surojit Jana
+**Surojit Jana**
 
 B.Tech in Computer Science & Engineering
 
-Government College of Engineering and Leather Technology (GCELT)
+Government College of Engineering & Leather Technology (GCELT)
+
 ---
 
 ## License
