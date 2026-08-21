@@ -26,6 +26,29 @@ jobs:
         env:
           VITE_OMDB_API_KEY: ${{ secrets.VITE_OMDB_API_KEY }}
 
+      # 1. Log into AWS using your credentials
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1 # ⚠️ CHANGE THIS to your EC2 instance region (e.g., ap-south-1, us-west-2)
+
+      # 2. Get the current public IP of this specific GitHub runner
+      - name: Get GitHub Runner IP
+        id: get-ip
+        run: echo "ip=$(curl -s https://ipify.org)" >> $GITHUB_OUTPUT
+
+      # 3. Add an entry to your EC2 security group allowing Port 22
+      - name: Open Port 22 in Security Group
+        run: |
+          aws ec2 authorize-security-group-ingress \
+            --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ steps.get-ip.outputs.ip }}/32
+
+      # 4. Your original rsync deployment step
       - name: Deploy to EC2
         uses: burnett01/rsync-deployments@7.0.1
         with:
@@ -35,3 +58,13 @@ jobs:
           remote_host: ${{ secrets.EC2_HOST }}
           remote_user: ${{ secrets.EC2_USER }}
           remote_key: ${{ secrets.EC2_SSH_KEY }}
+
+      # 5. Clean up and close Port 22 (This runs even if the deployment fails)
+      - name: Close Port 22 in Security Group
+        if: always()
+        run: |
+          aws ec2 revoke-security-group-ingress \
+            --group-id ${{ secrets.AWS_SECURITY_GROUP_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ steps.get-ip.outputs.ip }}/32
