@@ -139,7 +139,7 @@ This project was built as a hands-on way to learn React from the ground up — c
 
 ### State Management: Context API → Zustand
 
-Favorites were initially implemented with React's Context API. As the number of components consuming favorites grew (search results, detail page, and the favorites list), a key limitation became clear: **any component subscribed to the context re-renders on *any* change to the context value**, regardless of which specific field it actually reads. A component that only checked whether a single movie was favorited would still re-render every time the entire favorites list changed.
+Favorites were initially implemented with React's Context API. As the number of components consuming favorites grew (search results, detail page, and the favorites list), a key limitation became clear: **any component subscribed to the context re-renders on *any* change to the context value**, regardless of which specific field it actually reads. A component that only checked whether a single movie was added to favorites or not, would still re-render every time the entire favorites list changed.
 
 I migrated the favorites store to **Zustand**, which uses per-selector subscriptions instead of a single shared value. Components select only the exact slice of state they need (`useFavoritesStore((state) => state.favorites)`), so a component reading only an action function (e.g. `addFavorite`) never re-renders when the underlying data changes — since that function reference is stable across updates. This also removed the need for a `Provider` wrapping the component tree entirely, simplifying the app's root component.
 
