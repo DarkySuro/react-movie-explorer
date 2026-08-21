@@ -160,6 +160,13 @@ This keeps the server's attack surface closed by default, opening SSH only for t
 
 ---
 
+## Author
+
+Surojit Jana
+BTech in Computer Science & Engineering
+
+---
+
 ## License
 
 MIT
