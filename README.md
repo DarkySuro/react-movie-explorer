@@ -4,14 +4,8 @@ A full-stack React movie search app with live search, favorites, and a custom CI
 
 **[Live Demo →](http://13.53.36.113)**
 
-<!-- 
-  ADD YOUR MAIN SCREENSHOT HERE. 
-  1. Take a screenshot of the Home page (search results grid).
-  2. Save it in a folder like `docs/screenshots/home.png` in your repo.
-  3. Replace the line below with:
-     ![Home page screenshot](./docs/screenshots/home.png)
--->
-![Movie Finder screenshot](./docs/screenshots/home.png)
+
+![Movie Finder screenshot](screenshots/home.JPG)
 
 ---
 
@@ -24,14 +18,14 @@ A full-stack React movie search app with live search, favorites, and a custom CI
 - 🎨 **Custom cinema-themed UI** — dark theme with film-strip styled cards
 - 🚀 **Automated deployment** — every push to `main` builds and deploys automatically via GitHub Actions
 
-<!--
-  ADD MORE SCREENSHOTS HERE IF YOU WANT, e.g.:
-  ### Movie Details Page
-  ![Movie details screenshot](./docs/screenshots/details.png)
+---
 
-  ### Favorites Page
-  ![Favorites screenshot](./docs/screenshots/favorites.png)
--->
+### Movie Details Page
+![Movie details screenshot](screenshots/movie-details.JPG)
+
+### Favorites Page
+![Favorites screenshot](screenshots/favorites.JPG)
+
 
 ---
 
