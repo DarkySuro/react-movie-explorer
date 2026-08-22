@@ -12,6 +12,7 @@ A full-stack React movie search app with live search, persistent favorites, and 
 ## Features
 
 - 🔍 **Live search** — debounced search-as-you-type against the OMDb API
+- 🔃 **Sort & filter** — filter results by type (movie/series/episode), sort by year or rating customized for different pages
 - 🎞️ **Movie details** — full info page with poster, plot, director, rating
 - ⭐ **Favorites** — save/remove movies, persisted across sessions
 - 🧭 **Client-side routing** — multi-page navigation with React Router
