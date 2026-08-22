@@ -12,15 +12,6 @@
   --border: #2b2b31;
 }
 
-/* html, body {
-  width: 100%;
-  min-height: 100%;
-}
-
-#root {
-  width: 100%;
-} */
-
 * {
   box-sizing: border-box;
 }
@@ -149,6 +140,72 @@ a {
   color: var(--text);
   margin-bottom: 8px;
   font-size: 24px;
+}
+
+/* --------- Sort / Filter bar --------- */
+.sort-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.sort-filter-bar .filter-group {
+  display: flex;
+  gap: 8px;
+}
+
+.sort-filter-bar .filter-group button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.sort-filter-bar .filter-group button:hover:not(:disabled) {
+  border-color: var(--gold-dim);
+  color: var(--text);
+}
+
+.sort-filter-bar .filter-group button:disabled {
+  background: var(--gold);
+  color: #1a1408;
+  border-color: var(--gold);
+  cursor: default;
+  font-weight: 600;
+}
+
+.sort-filter-bar select {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-raised);
+  color: var(--text);
+  font-size: 13px;
+  cursor: pointer;
+  outline: none;
+}
+
+.sort-filter-bar select:focus {
+  border-color: var(--gold-dim);
+}
+
+@media (max-width: 640px) {
+  .sort-filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .sort-filter-bar .filter-group {
+    flex-wrap: wrap;
+  }
 }
 
 /* ---------- Movie grid ---------- */

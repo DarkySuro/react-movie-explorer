@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 import { useSortFilter } from "../hooks/useSortFilter";
 
+import SortFilterBar from "../components/SortFilterBar";
+
 const apikey = import.meta.env.VITE_OMDB_API_KEY;
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -10,7 +12,13 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const { displayedMovies, sortOrder, setSortOrder, typeFilter, setTypeFilter } = useSortFilter(movies); 
+  const {
+    displayedMovies,
+    sortOrder,
+    setSortOrder,
+    typeFilter,
+    setTypeFilter,
+  } = useSortFilter(movies);
 
   const debouncerTimer = useRef(null);
 
@@ -19,7 +27,7 @@ export default function Home() {
       setLoading(true);
       setError(null);
       const res = await fetch(
-        `http://www.omdbapi.com/?apikey=${apikey}&s=${searchTerm}`
+        `http://www.omdbapi.com/?apikey=${apikey}&s=${searchTerm}`,
       );
       if (!res.ok) {
         throw new Error("Failed to fetch!" + res.status);
@@ -50,7 +58,7 @@ export default function Home() {
     debouncerTimer.current = setTimeout(() => {
       fetchMovies();
     }, 1000);
-    
+
     // clear the timer before re-rendering or unmouting
     return () => clearTimeout(debouncerTimer.current);
   }, [searchTerm]);
@@ -81,7 +89,7 @@ export default function Home() {
         </p>
       ) : (
         <div>
-          <div className="sort-filter-bar">
+          {/* <div className="sort-filter-bar">
             <div className="filter-group">
               <button
                 disabled={typeFilter === "all"}
@@ -117,7 +125,13 @@ export default function Home() {
               <option value="newest">Newest First</option>
               <option value="oldest">Oldest First</option>
             </select>
-          </div>
+          </div> */}
+          <SortFilterBar
+            typeFilter={typeFilter}
+            setTypeFilter={setTypeFilter}
+            sortOrder={sortOrder}
+            setSortOrder={setSortOrder}
+          />
           <div className="movie-grid">
             {displayedMovies.map((m) => (
               <Link

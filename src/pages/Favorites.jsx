@@ -4,6 +4,8 @@ import { useFavoritesStore } from "../store/useFavoritesStore";
 
 import { useSortFilter } from "../hooks/useSortFilter";
 
+import SortFilterBar from "../components/SortFilterBar";
+
 export default function Favorites() {
   const favorites = useFavoritesStore((state) => state.favorites);
   const removeFavorite = useFavoritesStore((state) => state.removeFavorite);
@@ -12,7 +14,7 @@ export default function Favorites() {
 
   return (
     <div className="page">
-      <div className="sort-filter-bar">
+      {/* <div className="sort-filter-bar">
         <div className="filter-group">
           <button
             disabled={typeFilter === "all"}
@@ -48,7 +50,13 @@ export default function Favorites() {
           <option value="newest">Newest First</option>
           <option value="oldest">Oldest First</option>
         </select>
-      </div>
+      </div> */}
+      <SortFilterBar
+        typeFilter={typeFilter}
+        setTypeFilter={setTypeFilter}
+        sortOrder={sortOrder}
+        setSortOrder={ setSortOrder}
+      />
       {displayedMovies.length > 0 ? (
         <div className="movie-grid">
           {favorites.map((m) => (
