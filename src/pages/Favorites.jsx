@@ -10,7 +10,15 @@ export default function Favorites() {
   const favorites = useFavoritesStore((state) => state.favorites);
   const removeFavorite = useFavoritesStore((state) => state.removeFavorite);
 
-  const { displayedMovies, sortOrder, setSortOrder, typeFilter, setTypeFilter} = useSortFilter(favorites);
+  const {
+    displayedMovies,
+    sortOrder,
+    setSortOrder,
+    typeFilter,
+    setTypeFilter,
+  } = useSortFilter(favorites);
+
+  const typeLabels = { movie: "movies", series: "series", episode: "episodes" };
 
   return (
     <div className="page">
@@ -51,15 +59,28 @@ export default function Favorites() {
           <option value="oldest">Oldest First</option>
         </select>
       </div> */}
-      <SortFilterBar
-        typeFilter={typeFilter}
-        setTypeFilter={setTypeFilter}
-        sortOrder={sortOrder}
-        setSortOrder={ setSortOrder}
-      />
-      {displayedMovies.length > 0 ? (
+      {favorites.length > 0 && (
+        <SortFilterBar
+          typeFilter={typeFilter}
+          setTypeFilter={setTypeFilter}
+          sortOrder={sortOrder}
+          setSortOrder={setSortOrder}
+          showRatingSort={true}
+        />
+      )}
+      {favorites.length === 0 ? (
+        <div className="empty-state">
+          <h2>No favorites yet</h2>
+          <p>Search for a movie and save it here.</p>
+        </div>
+      ) : displayedMovies.length === 0 ? (
+        <div className="empty-state">
+          <h2>No {typeLabels[typeFilter] ?? "favorites"} found</h2>
+          <p>Try a different filter.</p>
+        </div>
+      ) : (
         <div className="movie-grid">
-          {favorites.map((m) => (
+          {displayedMovies.map((m) => (
             <div key={m.imdbID} className="movie-card">
               <Link to={`/movie/${m.imdbID}`}>
                 <div className="poster-wrap">
@@ -82,11 +103,6 @@ export default function Favorites() {
               </button>
             </div>
           ))}
-        </div>
-      ) : (
-        <div className="empty-state">
-          <h2>No favorites yet</h2>
-          <p>Search for a movie and save it here.</p>
         </div>
       )}
     </div>

@@ -20,6 +20,7 @@ export function useSortFilter(movies) {
     .sort((a, b) => {
       if (sortOrder === 'newest') return parseYear(b.Year) - parseYear(a.Year);
       if (sortOrder === "oldest") return parseYear(a.Year) - parseYear(b.Year);
+      if (sortOrder === "rating") return parseInt(b.imdbRating, 10) - parseInt(a.imdbRating, 10);
       return 0;
     });
   

@@ -1,4 +1,4 @@
-export default function SortFilterBar({ typeFilter, setTypeFilter, sortOrder, setSortOrder}) {
+export default function SortFilterBar({ typeFilter, setTypeFilter, sortOrder, setSortOrder, showRatingSort }) {
   return (
     <div className="sort-filter-bar">
       <div className="filter-group">
@@ -32,6 +32,7 @@ export default function SortFilterBar({ typeFilter, setTypeFilter, sortOrder, se
         <option value="none">Sort by</option>
         <option value="newest">Newest First</option>
         <option value="oldest">Oldest First</option>
+        { showRatingSort && <option value="rating">Most Rated</option>}
       </select>
     </div>
   );

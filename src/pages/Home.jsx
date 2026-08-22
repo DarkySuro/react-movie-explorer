@@ -126,12 +126,15 @@ export default function Home() {
               <option value="oldest">Oldest First</option>
             </select>
           </div> */}
-          <SortFilterBar
-            typeFilter={typeFilter}
-            setTypeFilter={setTypeFilter}
-            sortOrder={sortOrder}
-            setSortOrder={setSortOrder}
-          />
+          {movies.length >0 && 
+            <SortFilterBar
+              typeFilter={typeFilter}
+              setTypeFilter={setTypeFilter}
+              sortOrder={sortOrder}
+              setSortOrder={setSortOrder}
+              showRatingSort={false}
+            />
+          }
           <div className="movie-grid">
             {displayedMovies.map((m) => (
               <Link
