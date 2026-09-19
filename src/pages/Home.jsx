@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useSortFilter } from "../hooks/useSortFilter";
 
 import SortFilterBar from "../components/SortFilterBar";
+import MovieCard from "../components/MovieCard";
 
 const apikey = import.meta.env.VITE_OMDB_API_KEY;
 export default function Home() {
@@ -89,43 +90,6 @@ export default function Home() {
         </p>
       ) : (
         <div>
-          {/* <div className="sort-filter-bar">
-            <div className="filter-group">
-              <button
-                disabled={typeFilter === "all"}
-                onClick={() => setTypeFilter("all")}
-              >
-                All
-              </button>
-              <button
-                disabled={typeFilter === "movie"}
-                onClick={() => setTypeFilter("movie")}
-              >
-                Movies
-              </button>
-              <button
-                disabled={typeFilter === "series"}
-                onClick={() => setTypeFilter("series")}
-              >
-                Series
-              </button>
-              <button
-                disabled={typeFilter === "episode"}
-                onClick={() => setTypeFilter("episode")}
-              >
-                Episodes
-              </button>
-            </div>
-
-            <select
-              value={sortOrder}
-              onChange={(e) => setSortOrder(e.target.value)}
-            >
-              <option value="none">Sort by</option>
-              <option value="newest">Newest First</option>
-              <option value="oldest">Oldest First</option>
-            </select>
-          </div> */}
           {movies.length >0 && 
             <SortFilterBar
               typeFilter={typeFilter}
@@ -137,23 +101,7 @@ export default function Home() {
           }
           <div className="movie-grid">
             {displayedMovies.map((m) => (
-              <Link
-                className="movie-card"
-                key={m.imdbID}
-                to={`/movie/${m.imdbID}`}
-              >
-                <div className="poster-wrap">
-                  {m.Poster !== "N/A" ? (
-                    <img src={m.Poster} alt={m.Title} />
-                  ) : (
-                    <div className="no-poster">No Image</div>
-                  )}
-                </div>
-                <div className="card-body">
-                  <h2>{m.Title}</h2>
-                  <div className="year">{m.Year}</div>
-                </div>
-              </Link>
+              <MovieCard key={m.imdbID} movie={m} />
             ))}
           </div>
         </div>
