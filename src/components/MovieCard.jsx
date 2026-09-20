@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { memo } from "react";
 
 const MovieCard = memo(function MovieCard({ movie }) {
-  console.log("Rendering card:", movie.Title); // temporary, to observe re-renders
 
   return (
     <Link className="movie-card" to={`/movie/${movie.imdbID}`}>
