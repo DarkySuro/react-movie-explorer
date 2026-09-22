@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 // Zustand store
 import { useFavoritesStore } from "../store/useFavoritesStore";
@@ -5,11 +6,16 @@ import { useFavoritesStore } from "../store/useFavoritesStore";
 import { useSortFilter } from "../hooks/useSortFilter";
 
 import SortFilterBar from "../components/SortFilterBar";
+import Pagination from "../components/Pagination";
+import MovieCard from "../components/MovieCard";
 
 export default function Favorites() {
   const favorites = useFavoritesStore((state) => state.favorites);
   const removeFavorite = useFavoritesStore((state) => state.removeFavorite);
+  const [favPage, setFavPage] = useState(1);
+  const PER_PAGE = 10;
 
+  
   const {
     displayedMovies,
     sortOrder,
@@ -17,8 +23,18 @@ export default function Favorites() {
     typeFilter,
     setTypeFilter,
   } = useSortFilter(favorites);
+  
+  const totalFavPages = Math.ceil(displayedMovies.length / PER_PAGE);
+  const paginatedFavorites = displayedMovies.slice(
+    (favPage - 1) * PER_PAGE,
+    favPage * PER_PAGE
+  );
 
   const typeLabels = { movie: "movies", series: "series", episode: "episodes" };
+
+  useEffect(() => {
+    setFavPage(1);
+  }, [typeFilter,sortOrder]);
 
   return (
     <div className="page">
@@ -43,31 +59,16 @@ export default function Favorites() {
         </div>
       ) : (
         <div className="movie-grid">
-          {displayedMovies.map((m) => (
-            <div key={m.imdbID} className="movie-card">
-              <Link to={`/movie/${m.imdbID}`}>
-                <div className="poster-wrap">
-                  {m.Poster !== "N/A" ? (
-                    <img src={m.Poster} alt={m.Title} />
-                  ) : (
-                    <div className="no-poster">No Image</div>
-                  )}
-                </div>
-                <div className="card-body">
-                  <h2>{m.Title}</h2>
-                  <div className="year">{m.Year}</div>
-                </div>
-              </Link>
-              <button
-                className="remove-btn"
-                onClick={() => removeFavorite(m.imdbID)}
-              >
-                Remove
-              </button>
-            </div>
+          {paginatedFavorites.map((m) => (
+            <MovieCard key={m.imdbID} movie={m} />
           ))}
         </div>
       )}
+      <Pagination
+        currentPage={favPage}
+        totalPages={totalFavPages}
+        onPageChange={(page) => setFavPage(page)}
+      />
     </div>
   );
 }
