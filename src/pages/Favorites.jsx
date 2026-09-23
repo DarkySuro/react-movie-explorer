@@ -17,20 +17,19 @@ export default function Favorites() {
   const [favPage, setFavPage] = useState(1);
   const PER_PAGE = 10;
 
-  
   const displayedMovies = useSortFilter(favorites, sortOrder, typeFilter);
-  
+
   const totalFavPages = Math.ceil(displayedMovies.length / PER_PAGE);
   const paginatedFavorites = displayedMovies.slice(
     (favPage - 1) * PER_PAGE,
-    favPage * PER_PAGE
+    favPage * PER_PAGE,
   );
 
   const typeLabels = { movie: "movies", series: "series", episode: "episodes" };
 
   useEffect(() => {
     setFavPage(1);
-  }, [typeFilter,sortOrder]);
+  }, [typeFilter, sortOrder]);
 
   return (
     <div className="page">
@@ -56,15 +55,7 @@ export default function Favorites() {
       ) : (
         <div className="movie-grid">
           {paginatedFavorites.map((m) => (
-            <div key={m.imdbID}>
-              <MovieCard movie={m} />
-              <button
-                className="remove-btn"
-                onClick={() => removeFavorite(m.imdbID)}
-              >
-                Remove
-              </button>
-            </div>
+            <MovieCard key={m.imdbID} movie={m} showRemoveButton={true} />
           ))}
         </div>
       )}

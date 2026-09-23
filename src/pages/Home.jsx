@@ -17,6 +17,7 @@ export default function Home() {
   // const [typeFilter, setTypeFilter] = useState("all");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  // const [movies, setMovies] = useState([]);
   
   const searchTerm = useSearchStore((state) => state.searchTerm);
   const setSearchTerm = useSearchStore((state) => state.setSearchTerm);
