@@ -12,17 +12,13 @@ import MovieCard from "../components/MovieCard";
 export default function Favorites() {
   const favorites = useFavoritesStore((state) => state.favorites);
   const removeFavorite = useFavoritesStore((state) => state.removeFavorite);
+  const [sortOrder, setSortOrder] = useState("none");
+  const [typeFilter, setTypeFilter] = useState("all");
   const [favPage, setFavPage] = useState(1);
   const PER_PAGE = 10;
 
   
-  const {
-    displayedMovies,
-    sortOrder,
-    setSortOrder,
-    typeFilter,
-    setTypeFilter,
-  } = useSortFilter(favorites);
+  const displayedMovies = useSortFilter(favorites, sortOrder, typeFilter);
   
   const totalFavPages = Math.ceil(displayedMovies.length / PER_PAGE);
   const paginatedFavorites = displayedMovies.slice(

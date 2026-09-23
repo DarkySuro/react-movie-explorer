@@ -6,9 +6,9 @@
  */
 import { useMemo, useState } from "react";
 
-export function useSortFilter(movies) {
-  const [sortOrder, setSortOrder] = useState('none');
-  const [typeFilter, setTypeFilter] = useState('all');
+export function useSortFilter(movies, sortOrder, typeFilter) {
+  // const [sortOrder, setSortOrder] = useState('none');
+  // const [typeFilter, setTypeFilter] = useState('all');
 
   function parseYear(yearString) {
     const match = yearString.match(/\d{4}/);
@@ -29,5 +29,5 @@ export function useSortFilter(movies) {
       });
   }, [movies, sortOrder, typeFilter]);
   
-  return {displayedMovies, sortOrder, setSortOrder, typeFilter, setTypeFilter };
+  return displayedMovies;
 }
