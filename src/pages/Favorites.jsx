@@ -56,7 +56,15 @@ export default function Favorites() {
       ) : (
         <div className="movie-grid">
           {paginatedFavorites.map((m) => (
-            <MovieCard key={m.imdbID} movie={m} />
+            <div key={m.imdbID}>
+              <MovieCard movie={m} />
+              <button
+                className="remove-btn"
+                onClick={() => removeFavorite(m.imdbID)}
+              >
+                Remove
+              </button>
+            </div>
           ))}
         </div>
       )}
